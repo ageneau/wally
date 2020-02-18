@@ -6,6 +6,8 @@
    [wally.routes :as routes]
    [wally.views :as views]
    [wally.config :as config]
+   [day8.re-frame.http-fx]
+   [district0x.re-frame.web3-fx]
    ))
 
 

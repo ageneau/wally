@@ -1,2 +1,7 @@
 * Check for metamask availability
 https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#partly_sunny-web3---ethereum-browser-environment-check
+* How to transfer ERC20 tokens using web3js
+https://ethereum.stackexchange.com/questions/23121/how-to-transfer-erc20-tokens-using-web3js
+* MetaMask web3.js
+https://medium.com/metamask/no-longer-injecting-web3-js-4a899ad6e59e
+* https://medium.com/metamask/https-medium-com-metamask-breaking-change-injecting-web3-7722797916a8

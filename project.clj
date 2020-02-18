@@ -9,6 +9,8 @@
                  [re-frame "0.11.0"]
                  [re-com "2.7.0"]
                  [secretary "1.2.3"]
+                 [day8.re-frame/http-fx "v0.2.0"]
+                 [cljs-web3 "0.19.0-0-11"]
                  [district0x.re-frame/web3-fx "1.0.5"]]
 
   :plugins [

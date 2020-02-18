@@ -1,4 +1,5 @@
 (ns wally.db)
 
 (def default-db
-  {:name "re-frame"})
+  {:name "re-frame"
+   :network :ropsten})
