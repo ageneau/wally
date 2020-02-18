@@ -2,4 +2,5 @@
 
 (def default-db
   {:name "re-frame"
-   :network :ropsten})
+   :network :ropsten
+   :connected false})

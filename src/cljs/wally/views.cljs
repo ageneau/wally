@@ -58,6 +58,11 @@
      :disabled? (not valid?)
      :on-click #(re-frame/dispatch [:view/submit-clicked])]))
 
+(defn account-label []
+  (let [accounts @(re-frame/subscribe [::subs/accounts])
+        account (first accounts)]
+    (re-com/label :label (str "Account: " account))))
+
 (defn home-panel []
   [re-com/v-box
    :gap "1em"
@@ -77,6 +82,7 @@
                           :border-radius    "0px"
                           :padding          "20px 26px"}]
               [network-selector]
+              [account-label]
               [address-input]
               [send-button]
               [link-to-about-page]]])

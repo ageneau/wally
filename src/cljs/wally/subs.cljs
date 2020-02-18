@@ -33,9 +33,8 @@
  contract)
 
 (re-frame/reg-sub
-  ::accounts
-  accounts)
-
+ ::accounts
+ accounts)
 
 (re-frame/reg-sub
  ::token-balance
