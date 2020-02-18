@@ -2,10 +2,13 @@
   (:require
    [cljs-web3.core :as web3]
    [cljs-web3.eth :as eth]
-   [re-frame.core :as rf])
+   [cljs-web3.net :as net]
+   [re-frame.core :as rf]
+   [wally.data :as data])
   (:require-macros [wally.macros :refer [inline-resource]]))
 
-(def ^:const contract (js/JSON.parse (inline-resource "public/contracts/Sablier.json")))
+(def ^:const abi (js/JSON.parse (inline-resource "public/contracts/Sablier.json")))
+(def web3 (js/Web3. js/window.ethereum))
 
 (rf/reg-fx
  :init-w3

@@ -19,11 +19,6 @@
    (assoc db :active-panel active-panel)))
 
 
-(re-frame/reg-event-db
- :good-http-result
- (fn-traced [db [_ result]]
-   (assoc db :success-http-result result)))
-
 (re-frame/reg-event-fx
  ::error
  interceptors
@@ -43,28 +38,46 @@
 (re-frame/reg-event-fx
  ::accounts-loaded
  interceptors
- (fn-traced [{:keys [:db]} [accounts]]
-   {:db (assoc db :accounts accounts)}))
+ (fn-traced [{:keys [db]} [accounts]]
+            {:db (assoc db :accounts accounts)
+             :dispatch [::load-ether-balances accounts]}))
 
+
+(re-frame/reg-event-fx
+ ::load-ether-balances
+ (fn [{:keys [db]} [_ addresses]]
+   {:web3/get-balances {:web3 web3
+                        :addresses (for [address addresses]
+                                     {:id (str "balance-" address) ;; If you watch?, pass :id so you can stop watching later
+                                      :address address
+                                      :watch? true
+                                      :on-success [::ether-balance-loaded address]
+                                      :on-error [::error]})}}))
+
+(re-frame/reg-event-fx
+ ::ether-balance-loaded
+ interceptors
+ (fn [{:keys [:db]} [address balance]]
+   {:db (assoc-in db [:balances address] (str balance))}))
 
 (re-frame/reg-event-fx
  :network/changed
  interceptors
- (fn-traced [{:keys [:db]} [network]]
+ (fn-traced [{:keys [db]} [network]]
    {:db (assoc db :network network)}))
 
 
 (re-frame/reg-event-fx
  :dest/changed
  interceptors
- (fn-traced [{:keys [:db]} [dest]]
+ (fn-traced [{:keys [db]} [dest]]
    {:db (assoc db :dest dest)}))
 
 
 (re-frame/reg-event-fx
  :login/metamask
  interceptors
- (fn-traced [{:keys [:db]}]
+ (fn-traced [{:keys [db]}]
    {:db (assoc-in db [:metamask :perm-requested] true)
     :init-w3 {:on-success [::logged-in]
               :on-failure [::login-error]}}))
@@ -72,7 +85,7 @@
 (re-frame/reg-event-fx
  ::logged-in
  interceptors
- (fn-traced [{:keys [:db]}]
+ (fn-traced [{:keys [db]}]
             {:db (assoc db :connected true)
              :dispatch [::load-accounts]}))
 

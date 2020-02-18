@@ -3,8 +3,7 @@
    [re-frame.core :as re-frame]
    [re-com.core :as re-com]
    [wally.subs :as subs]
-   [cljs-web3.core :as web3]
-   ))
+   [cljs-web3.core :as web3]))
 
 
 ;; home
@@ -38,7 +37,7 @@
      :width "300px"
      :on-change #(re-frame/dispatch [:network/changed %])]))
 
-(defn address-input []
+(defn recipient-input []
   (let [dest @(re-frame/subscribe [:dest/address])
         status (when (valid-dest? dest) :success)]
    [re-com/input-text
@@ -47,7 +46,7 @@
     :status-icon? true
     :status-tooltip "valid address"
     :width "300px"
-    :placeholder "destination address"
+    :placeholder "recipient address"
     :on-change #(re-frame/dispatch [:dest/changed %])]))
 
 (defn send-button []
@@ -60,8 +59,9 @@
 
 (defn account-label []
   (let [accounts @(re-frame/subscribe [::subs/accounts])
-        account (first accounts)]
-    (re-com/label :label (str "Account: " account))))
+        account (first accounts)
+        balance @(re-frame/subscribe [::subs/balance account])]
+    (re-com/label :label (str "Account: " account " balance: " balance))))
 
 (defn home-panel []
   [re-com/v-box
@@ -81,9 +81,9 @@
                           :border           "none"
                           :border-radius    "0px"
                           :padding          "20px 26px"}]
-              [network-selector]
+              #_[network-selector]
               [account-label]
-              [address-input]
+              [recipient-input]
               [send-button]
               [link-to-about-page]]])
 
