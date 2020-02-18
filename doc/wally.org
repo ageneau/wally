@@ -1,0 +1,2 @@
+* Check for metamask availability
+https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#partly_sunny-web3---ethereum-browser-environment-check

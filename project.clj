@@ -8,7 +8,8 @@
                  [reagent "0.9.1"]
                  [re-frame "0.11.0"]
                  [re-com "2.7.0"]
-                 [secretary "1.2.3"]]
+                 [secretary "1.2.3"]
+                 [district0x.re-frame/web3-fx "1.0.5"]]
 
   :plugins [
             [lein-shell "0.5.0"]]
