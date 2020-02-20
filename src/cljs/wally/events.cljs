@@ -45,7 +45,7 @@
  (fn-traced [{:keys [db]} [accounts]]
             {:db (assoc db :accounts accounts)
              :dispatch-n [[::load-ether-balances accounts]
-                          [::load-token-balances accounts]]}))
+                          #_[::load-token-balances accounts]]}))
 
 
 (re-frame/reg-event-fx
@@ -154,3 +154,10 @@
                                :token :testdai
                                :start-time start-time
                                :stop-time stop-time}})))
+
+
+(re-frame/reg-event-fx
+ ::stream-created
+ interceptors
+ (fn-traced [{:keys [db]} _]
+            {}))
