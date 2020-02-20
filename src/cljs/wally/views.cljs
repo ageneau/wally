@@ -11,7 +11,7 @@
 (defn home-title []
   (let [name (re-frame/subscribe [::subs/name])]
     [re-com/title
-     :label "Stream ETH tokens over time"
+     :label "Stream DAI tokens over time"
      :level :level1]))
 
 (defn link-to-about-page []
@@ -76,6 +76,8 @@
     [re-com/button
      :label "Stream funds"
      :disabled? (not valid?)
+     :style {:color            "white"
+             :background-color "#4d90fe"}
      :on-click #(re-frame/dispatch [:submit-clicked])]))
 
 (defn account-label []
@@ -83,17 +85,17 @@
         account (first accounts)
         balance @(re-frame/subscribe [::subs/balance account])
         token-balance @(re-frame/subscribe [::subs/token-balance account])]
-    (re-com/label :label (str "Account: " account
-                              " balance: " (web3/from-wei balance :ether) " ETH"
-                              ;; token-balance " FAU"
-                              ))))
+    [re-com/v-box
+     :children [(re-com/label :label (str "Account: " account))
+                (re-com/label :label (str "Balance: " (web3/from-wei balance :ether) " ETH"))]]))
 
 (defn home-panel []
   [re-com/v-box
    :gap "1em"
+   :style {:margin "30px"}
    :children [[home-title]
               [re-com/button
-               :label    [:span "Connect to MetaMask " [:i {:style {:background-image "url('https://i.ibb.co/BsTBKsn/fox.png')"
+               :label    [:span "Connect to MetaMask " #_[:i {:style {:background-image "url('https://i.ibb.co/BsTBKsn/fox.png')"
                                                                     :background-size "contain"
                                                                     :display "inline-block"
                                                                     :width "36px"
@@ -101,19 +103,21 @@
                :on-click #(re-frame/dispatch [:login/metamask])
                :style    {:color            "white"
                           :background-color "#4d90fe"
-                          :font-size        "22px"
-                          :font-weight      "300"
-                          :border           "none"
-                          :border-radius    "0px"
-                          :padding          "20px 26px"}]
+                          ;; :font-size        "22px"
+                          ;; :font-weight      "300"
+                          ;; :border           "none"
+                          ;; :border-radius    "0px"
+                          ;; :padding          "20px 26px"
+                          }]
               #_[network-selector]
               [account-label]
               [re-com/h-box
+               :gap "1em"
                :children [[recipient-input]
                           [amount-input]]]
               [duration-input]
               [send-button]
-              [link-to-about-page]]])
+              #_[link-to-about-page]]])
 
 
 ;; about
