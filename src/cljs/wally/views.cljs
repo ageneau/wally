@@ -44,6 +44,7 @@
      :status-tooltip "valid address"
      :width "400px"
      :placeholder "recipient address"
+     :change-on-blur? nil
      :on-change #(re-frame/dispatch [:dest-changed %])]))
 
 (defn amount-input []
@@ -56,6 +57,7 @@
      :status-tooltip "valid amount"
      :width "300px"
      :placeholder "Amount to send"
+     :change-on-blur? nil
      :on-change #(re-frame/dispatch [:amount-changed %])]))
 
 (defn duration-input []
@@ -68,6 +70,7 @@
      :status-tooltip "valid duration"
      :width "300px"
      :placeholder "Stream duration in minutes"
+     :change-on-blur? nil
      :on-change #(re-frame/dispatch [:duration-changed %])]))
 
 (defn send-button []
