@@ -6,3 +6,49 @@ https://ethereum.stackexchange.com/questions/23121/how-to-transfer-erc20-tokens-
 https://medium.com/metamask/no-longer-injecting-web3-js-4a899ad6e59e
 * https://medium.com/metamask/https-medium-com-metamask-breaking-change-injecting-web3-7722797916a8
 * https://medium.com/sablier/operating-the-sablier-protocol-manually-e6569092c533
+* Token Faucets
+https://github.com/bokkypoobah/WeenusTokenFaucet
+https://github.com/peppersec/erc20faucet
+* TestDAI tokens on Rinkeby
+https://twitter.com/PaulRBerg/status/1198276650884124674
+https://rinkeby.etherscan.io/address/0xc3dbf84abb494ce5199d5d4d815b10ec29529ff8#writeContract
+(mint)
+https://github.com/sablierhq/sablier/issues/21
+* Time delta issue
+https://docs.sablier.finance/streams#the-deposit-gotcha
+* Transaction
+dest:https://rinkeby.etherscan.io/address/0x21696adc72c227f5c05c1d5c4accd7b8db5ac9a9
+
+https://rinkeby.etherscan.io/address/0xc04ad234e01327b24a831e3718dbfcbe245904cc#writeContract
+0x21696adc72c227f5c05c1d5c4accd7b8db5ac9a9
+0x4563918244f40000
+0xc3dbf84abb494ce5199d5d4d815b10ec29529ff8
+
+
+0x21696adc72c227f5c05c1d5c4accd7b8db5ac9a9
+0x4563918244f40000
+0xc3dbf84abb494ce5199d5d4d815b10ec29529ff8
+
+Fee:0.000312732
+
+Fail:
+call_0_1	0xc04ad234e01327b24a831e3718dbfcbe245904cc	
+0xaff4481d10270f50f203e0763e2597776068cbc5	0 Ether	9,156,926
+
+Success:
+call_0_1	0xc04ad234e01327b24a831e3718dbfcbe245904cc	
+0xc3dbf84abb494ce5199d5d4d815b10ec29529ff8	0 Ether	297,537
+
+* Approval
+https://eips.ethereum.org/EIPS/eip-20#approve
+
+NOTE: To prevent attack vectors like the one described here and discussed here, clients SHOULD make sure to create user interfaces in such a way that they set the allowance first to 0 before setting it to another value for the same spender. THOUGH The contract itself shouldn’t enforce it, to allow backwards compatibility with contracts deployed before
+https://docs.google.com/document/d/1YLPtQxZu1UAvO9cZ1O2RPXBbT0mooh4DYKjA_jp-RLM/edit
+
+Because the described attack allows an attacker to transfer at most N + M tokens when allowance is being changed from N to M, then changing allowance from N to 0 and then from 0 to M seems quite safe.  Token owner just needs to make sure that first transaction actually changed allowance from N to 0,
+
+approve spender:
+https://rinkeby.etherscan.io/tx/0x47de00b97d1412ca116a955055d142cb3a9db3e011e634f07bf79e3c85ec9bdc
+stream:
+https://rinkeby.etherscan.io/tx/0xbab40511f106627beb59624eb8e1eaca77bc4624fe6eaf91b949c4f95241ff03
+(id: 171)

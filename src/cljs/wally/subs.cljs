@@ -47,11 +47,21 @@
    (apply balance db args)))
 
 (re-frame/reg-sub
- :network/network
+ ::dest
  (fn [db]
-   (:network db)))
+   (get-in db [:form :dest])))
 
 (re-frame/reg-sub
- :dest/address
+ ::amount
  (fn [db]
-   (:dest db)))
+   (get-in db [:form :amount])))
+
+(re-frame/reg-sub
+ ::duration
+ (fn [db]
+   (get-in db [:form :duration])))
+
+(re-frame/reg-sub
+ ::form
+ (fn [db]
+   (:form db)))

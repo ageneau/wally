@@ -24,44 +24,69 @@
                {:id :rinkeby :label "Rinkeby Test Network"}])
 
 
-(defn valid-dest? [dest]
-  (web3/address? dest))
+(def valid-dest? web3/address?)
+(def valid-amount? pos?)
+(def valid-duration? pos?)
 
-(def valid-form? valid-dest?)
+(defn valid-form? [form]
+  (and (valid-duration? (:duration form))
+       (valid-amount? (:amount form))
+       (valid-dest? (:dest form))))
 
-(defn network-selector []
-  (let [network @(re-frame/subscribe [:network/network])]
-    [re-com/single-dropdown
-     :choices   networks
-     :model network
-     :width "300px"
-     :on-change #(re-frame/dispatch [:network/changed %])]))
 
 (defn recipient-input []
-  (let [dest @(re-frame/subscribe [:dest/address])
+  (let [dest @(re-frame/subscribe [::subs/dest])
         status (when (valid-dest? dest) :success)]
-   [re-com/input-text
-    :model dest
-    :status status
-    :status-icon? true
-    :status-tooltip "valid address"
-    :width "300px"
-    :placeholder "recipient address"
-    :on-change #(re-frame/dispatch [:dest/changed %])]))
+    [re-com/input-text
+     :model dest
+     :status status
+     :status-icon? true
+     :status-tooltip "valid address"
+     :width "400px"
+     :placeholder "recipient address"
+     :on-change #(re-frame/dispatch [:dest-changed %])]))
+
+(defn amount-input []
+  (let [amount @(re-frame/subscribe [::subs/amount])
+        status (when (valid-amount? amount) :success)]
+    [re-com/input-text
+     :model amount
+     :status status
+     :status-icon? true
+     :status-tooltip "valid amount"
+     :width "300px"
+     :placeholder "Amount to send"
+     :on-change #(re-frame/dispatch [:amount-changed %])]))
+
+(defn duration-input []
+  (let [duration @(re-frame/subscribe [::subs/duration])
+        status (when (valid-duration? duration) :success)]
+    [re-com/input-text
+     :model duration
+     :status status
+     :status-icon? true
+     :status-tooltip "valid duration"
+     :width "300px"
+     :placeholder "Stream duration in minutes"
+     :on-change #(re-frame/dispatch [:duration-changed %])]))
 
 (defn send-button []
-  (let [dest @(re-frame/subscribe [:dest/address])
-        valid? (valid-form? dest)]
+  (let [form @(re-frame/subscribe [::subs/form])
+        valid? (valid-form? form)]
     [re-com/button
-     :label "Send funds"
+     :label "Stream funds"
      :disabled? (not valid?)
-     :on-click #(re-frame/dispatch [:view/submit-clicked])]))
+     :on-click #(re-frame/dispatch [:submit-clicked])]))
 
 (defn account-label []
   (let [accounts @(re-frame/subscribe [::subs/accounts])
         account (first accounts)
-        balance @(re-frame/subscribe [::subs/balance account])]
-    (re-com/label :label (str "Account: " account " balance: " balance))))
+        balance @(re-frame/subscribe [::subs/balance account])
+        token-balance @(re-frame/subscribe [::subs/token-balance account])]
+    (re-com/label :label (str "Account: " account
+                              " balance: " (web3/from-wei balance :ether) " ETH"
+                              ;; token-balance " FAU"
+                              ))))
 
 (defn home-panel []
   [re-com/v-box
@@ -83,7 +108,10 @@
                           :padding          "20px 26px"}]
               #_[network-selector]
               [account-label]
-              [recipient-input]
+              [re-com/h-box
+               :children [[recipient-input]
+                          [amount-input]]]
+              [duration-input]
               [send-button]
               [link-to-about-page]]])
 
